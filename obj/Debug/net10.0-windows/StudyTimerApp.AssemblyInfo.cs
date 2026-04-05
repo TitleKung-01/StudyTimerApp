@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StudyTimerApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8d1f4484a331a5250b682910645b4c9bc09bf980")]
 [assembly: System.Reflection.AssemblyProductAttribute("StudyTimerApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StudyTimerApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

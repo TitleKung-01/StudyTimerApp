@@ -28,7 +28,18 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private bool _isLoadingMusic;
 
+    [ObservableProperty]
+    private double _volume = 0.5;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanPlayMusic))]
+    [NotifyPropertyChangedFor(nameof(CanPauseMusic))]
+    private bool _isMusicPlaying;
+
     public bool CanEditSettings => !IsRunning;
+
+    public bool CanPlayMusic => CurrentTrack != null && !IsMusicPlaying;
+    public bool CanPauseMusic => CurrentTrack != null && IsMusicPlaying;
 
     public MainViewModel(ITimerService timerService, IMediaPlayerService mediaPlayerService, IMusicResolverService musicResolverService)
     {
@@ -42,6 +53,11 @@ public partial class MainViewModel : ObservableObject
         _timerService.SetTime(25 * 60);
     }
 
+    partial void OnVolumeChanged(double value)
+    {
+        _mediaPlayerService.SetVolume(value);
+    }
+
     private void OnTimeChanged(int remainingSeconds)
     {
         var timeSpan = TimeSpan.FromSeconds(remainingSeconds);
@@ -52,6 +68,7 @@ public partial class MainViewModel : ObservableObject
     {
         IsRunning = false;
         _mediaPlayerService.Stop();
+        IsMusicPlaying = false;
         OnPropertyChanged(nameof(CanEditSettings));
     }
 
@@ -69,12 +86,15 @@ public partial class MainViewModel : ObservableObject
                 if (CurrentTrack != null)
                 {
                     _mediaPlayerService.Play(CurrentTrack.StreamUrl);
+                    _mediaPlayerService.SetVolume(Volume);
+                    IsMusicPlaying = true;
                 }
             }
-            else if (CurrentTrack != null)
+            else if (CurrentTrack != null && !IsMusicPlaying)
             {
                 // Resume
-                _mediaPlayerService.Play(CurrentTrack.StreamUrl); // Or just a play without url if MediaElement handles it, but passing URL is fine
+                _mediaPlayerService.Resume(); 
+                IsMusicPlaying = true;
             }
         }
 
@@ -88,6 +108,7 @@ public partial class MainViewModel : ObservableObject
         _timerService.Stop();
         IsRunning = false;
         _mediaPlayerService.Stop();
+        IsMusicPlaying = false;
     }
 
     [RelayCommand]
@@ -96,6 +117,7 @@ public partial class MainViewModel : ObservableObject
         _timerService.Reset();
         IsRunning = false;
         _mediaPlayerService.Stop();
+        IsMusicPlaying = false;
         CurrentTrack = null;
     }
 
@@ -106,5 +128,34 @@ public partial class MainViewModel : ObservableObject
         {
             _timerService.SetTime(minutes * 60);
         }
+    }
+
+    [RelayCommand]
+    private void PauseMusic()
+    {
+        if (CurrentTrack != null)
+        {
+            _mediaPlayerService.Pause();
+            IsMusicPlaying = false;
+        }
+    }
+
+    [RelayCommand]
+    private void ResumeMusic()
+    {
+        if (CurrentTrack != null)
+        {
+            _mediaPlayerService.Resume();
+            IsMusicPlaying = true;
+        }
+    }
+
+    [RelayCommand]
+    private void StopMusic()
+    {
+        _mediaPlayerService.Stop();
+        CurrentTrack = null;
+        IsMusicPlaying = false;
+        MediaUrl = ""; // Optional: Clear the URL if you want
     }
 }

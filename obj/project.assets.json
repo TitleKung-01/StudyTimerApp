@@ -194,11 +194,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.csproj",
+      "projectUniqueName": "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.csproj",
       "projectName": "StudyTimerApp",
-      "projectPath": "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.csproj",
+      "projectPath": "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.csproj",
       "packagesPath": "C:\\Users\\mryos\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\obj\\",
+      "outputPath": "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mryos\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -213,11 +213,11 @@
         "net10.0-windows7.0": {
           "targetAlias": "net10.0-windows",
           "projectReferences": {
-            "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Application\\StudyTimerApp.Application.csproj": {
-              "projectPath": "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Application\\StudyTimerApp.Application.csproj"
+            "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Application\\StudyTimerApp.Application.csproj": {
+              "projectPath": "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Application\\StudyTimerApp.Application.csproj"
             },
-            "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Infrastructure\\StudyTimerApp.Infrastructure.csproj": {
-              "projectPath": "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Infrastructure\\StudyTimerApp.Infrastructure.csproj"
+            "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Infrastructure\\StudyTimerApp.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Infrastructure\\StudyTimerApp.Infrastructure.csproj"
             }
           }
         }

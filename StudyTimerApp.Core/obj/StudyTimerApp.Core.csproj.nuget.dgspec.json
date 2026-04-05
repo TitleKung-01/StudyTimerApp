@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Core\\StudyTimerApp.Core.csproj": {}
+    "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Core\\StudyTimerApp.Core.csproj": {}
   },
   "projects": {
-    "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Core\\StudyTimerApp.Core.csproj": {
+    "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Core\\StudyTimerApp.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Core\\StudyTimerApp.Core.csproj",
+        "projectUniqueName": "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Core\\StudyTimerApp.Core.csproj",
         "projectName": "StudyTimerApp.Core",
-        "projectPath": "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Core\\StudyTimerApp.Core.csproj",
+        "projectPath": "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Core\\StudyTimerApp.Core.csproj",
         "packagesPath": "C:\\Users\\mryos\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Core\\obj\\",
+        "outputPath": "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mryos\\AppData\\Roaming\\NuGet\\NuGet.Config"

@@ -17,11 +17,12 @@ public partial class MainWindow : Window
         
         // Setup Dependency Injection manually for the scope of Clean Architecture sample
         var timerService = new TimerService();
-        var mediaPlayerService = new WebViewMediaPlayerService(PlayMedia, StopMedia);
+        var mediaPlayerService = new WebViewMediaPlayerService(PlayMedia, PauseMedia, ResumeMedia, StopMedia, SetVolumeMedia);
         var musicResolverService = new YoutubeMusicResolverService();
         
         _viewModel = new MainViewModel(timerService, mediaPlayerService, musicResolverService);
         DataContext = _viewModel;
+        PlayerMediaElement.Volume = 0.5; // Default volume
     }
 
     private void PlayMedia(string url)
@@ -42,6 +43,30 @@ public partial class MainWindow : Window
         });
     }
 
+    private void PauseMedia()
+    {
+        Dispatcher.Invoke(() =>
+        {
+            try
+            {
+                PlayerMediaElement.Pause();
+            }
+            catch { }
+        });
+    }
+
+    private void ResumeMedia()
+    {
+        Dispatcher.Invoke(() =>
+        {
+            try
+            {
+                PlayerMediaElement.Play();
+            }
+            catch { }
+        });
+    }
+
     private void StopMedia()
     {
         Dispatcher.Invoke(() =>
@@ -50,6 +75,18 @@ public partial class MainWindow : Window
             {
                 PlayerMediaElement.Stop();
                 PlayerMediaElement.Source = null;
+            }
+            catch { }
+        });
+    }
+
+    private void SetVolumeMedia(double volume)
+    {
+        Dispatcher.Invoke(() =>
+        {
+            try
+            {
+                PlayerMediaElement.Volume = volume;
             }
             catch { }
         });

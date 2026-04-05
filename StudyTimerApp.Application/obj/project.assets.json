@@ -32,11 +32,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Application\\StudyTimerApp.Application.csproj",
+      "projectUniqueName": "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Application\\StudyTimerApp.Application.csproj",
       "projectName": "StudyTimerApp.Application",
-      "projectPath": "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Application\\StudyTimerApp.Application.csproj",
+      "projectPath": "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Application\\StudyTimerApp.Application.csproj",
       "packagesPath": "C:\\Users\\mryos\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Application\\obj\\",
+      "outputPath": "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Application\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mryos\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -51,8 +51,8 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Core\\StudyTimerApp.Core.csproj": {
-              "projectPath": "c:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Core\\StudyTimerApp.Core.csproj"
+            "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Core\\StudyTimerApp.Core.csproj": {
+              "projectPath": "C:\\Users\\mryos\\Documents\\GitHub\\StudyTimerApp\\StudyTimerApp.Core\\StudyTimerApp.Core.csproj"
             }
           }
         }

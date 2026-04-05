@@ -15,3 +15,4 @@ c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Infrastructure\obj\D
 c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Infrastructure\obj\Debug\net10.0-windows\refint\StudyTimerApp.Infrastructure.dll
 c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Infrastructure\obj\Debug\net10.0-windows\StudyTimerApp.Infrastructure.pdb
 c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Infrastructure\obj\Debug\net10.0-windows\ref\StudyTimerApp.Infrastructure.dll
+C:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Infrastructure\obj\Debug\net10.0-windows\StudyTimerApp.Infrastructure.sourcelink.json

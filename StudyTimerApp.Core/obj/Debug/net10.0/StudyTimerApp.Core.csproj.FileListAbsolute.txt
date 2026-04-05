@@ -9,3 +9,4 @@ c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Core\obj\Debug\net10
 c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Core\obj\Debug\net10.0\refint\StudyTimerApp.Core.dll
 c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Core\obj\Debug\net10.0\StudyTimerApp.Core.pdb
 c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Core\obj\Debug\net10.0\ref\StudyTimerApp.Core.dll
+C:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Core\obj\Debug\net10.0\StudyTimerApp.Core.sourcelink.json
