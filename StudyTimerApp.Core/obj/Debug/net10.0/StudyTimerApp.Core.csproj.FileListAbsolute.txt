@@ -1,0 +1,11 @@
+c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Core\bin\Debug\net10.0\StudyTimerApp.Core.deps.json
+c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Core\bin\Debug\net10.0\StudyTimerApp.Core.dll
+c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Core\bin\Debug\net10.0\StudyTimerApp.Core.pdb
+c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Core\obj\Debug\net10.0\StudyTimerApp.Core.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Core\obj\Debug\net10.0\StudyTimerApp.Core.AssemblyInfoInputs.cache
+c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Core\obj\Debug\net10.0\StudyTimerApp.Core.AssemblyInfo.cs
+c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Core\obj\Debug\net10.0\StudyTimerApp.Core.csproj.CoreCompileInputs.cache
+c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Core\obj\Debug\net10.0\StudyTimerApp.Core.dll
+c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Core\obj\Debug\net10.0\refint\StudyTimerApp.Core.dll
+c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Core\obj\Debug\net10.0\StudyTimerApp.Core.pdb
+c:\Users\mryos\Documents\GitHub\StudyTimerApp\StudyTimerApp.Core\obj\Debug\net10.0\ref\StudyTimerApp.Core.dll

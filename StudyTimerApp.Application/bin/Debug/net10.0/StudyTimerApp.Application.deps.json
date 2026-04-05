@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "StudyTimerApp.Application/1.0.0": {
+        "dependencies": {
+          "StudyTimerApp.Core": "1.0.0"
+        },
+        "runtime": {
+          "StudyTimerApp.Application.dll": {}
+        }
+      },
+      "StudyTimerApp.Core/1.0.0": {
+        "runtime": {
+          "StudyTimerApp.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "StudyTimerApp.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "StudyTimerApp.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
