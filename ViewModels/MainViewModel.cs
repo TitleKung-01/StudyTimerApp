@@ -20,7 +20,9 @@ public partial class MainViewModel : ObservableObject
     private bool _isRunning;
 
     [ObservableProperty]
-    private string _mediaUrl = "";
+    private string _newMediaUrl = "";
+
+    public System.Collections.ObjectModel.ObservableCollection<TrackInfo> MusicQueue { get; } = new();
 
     [ObservableProperty]
     private TrackInfo? _currentTrack;
@@ -34,12 +36,14 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(CanPlayMusic))]
     [NotifyPropertyChangedFor(nameof(CanPauseMusic))]
+    [NotifyPropertyChangedFor(nameof(HasTrackOrQueue))]
     private bool _isMusicPlaying;
 
     public bool CanEditSettings => !IsRunning;
 
     public bool CanPlayMusic => CurrentTrack != null && !IsMusicPlaying;
     public bool CanPauseMusic => CurrentTrack != null && IsMusicPlaying;
+    public bool HasTrackOrQueue => CurrentTrack != null || MusicQueue.Count > 0;
 
     public MainViewModel(ITimerService timerService, IMediaPlayerService mediaPlayerService, IMusicResolverService musicResolverService)
     {
@@ -77,18 +81,9 @@ public partial class MainViewModel : ObservableObject
     {
         if (!_timerService.IsRunning && _timerService.RemainingSeconds > 0)
         {
-            if (!string.IsNullOrWhiteSpace(MediaUrl) && CurrentTrack == null)
+            if (CurrentTrack == null && MusicQueue.Count > 0)
             {
-                IsLoadingMusic = true;
-                CurrentTrack = await _musicResolverService.ResolveTrackAsync(MediaUrl);
-                IsLoadingMusic = false;
-
-                if (CurrentTrack != null)
-                {
-                    _mediaPlayerService.Play(CurrentTrack.StreamUrl);
-                    _mediaPlayerService.SetVolume(Volume);
-                    IsMusicPlaying = true;
-                }
+                await PlayNextInQueueAsync();
             }
             else if (CurrentTrack != null && !IsMusicPlaying)
             {
@@ -131,6 +126,23 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void TogglePlayPauseMusic()
+    {
+        if (CurrentTrack == null) return;
+
+        if (IsMusicPlaying)
+        {
+            _mediaPlayerService.Pause();
+            IsMusicPlaying = false;
+        }
+        else
+        {
+            _mediaPlayerService.Resume();
+            IsMusicPlaying = true;
+        }
+    }
+
+    [RelayCommand]
     private void PauseMusic()
     {
         if (CurrentTrack != null)
@@ -156,6 +168,76 @@ public partial class MainViewModel : ObservableObject
         _mediaPlayerService.Stop();
         CurrentTrack = null;
         IsMusicPlaying = false;
-        MediaUrl = ""; // Optional: Clear the URL if you want
+    }
+
+    [RelayCommand]
+    private async Task AddToQueueAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(NewMediaUrl))
+        {
+            var url = NewMediaUrl;
+            NewMediaUrl = "";
+
+            IsLoadingMusic = true;
+            try
+            {
+                var trackInfo = await _musicResolverService.ResolveTrackAsync(url);
+                if (trackInfo != null)
+                {
+                    MusicQueue.Add(trackInfo);
+                    
+                    if (IsRunning && CurrentTrack == null)
+                    {
+                        await PlayNextInQueueAsync();
+                    }
+                }
+            }
+            finally
+            {
+                IsLoadingMusic = false;
+            }
+        }
+    }
+
+    [RelayCommand]
+    private void RemoveFromQueue(TrackInfo track)
+    {
+        if (MusicQueue.Contains(track))
+        {
+            MusicQueue.Remove(track);
+        }
+    }
+
+    [RelayCommand]
+    private async Task SkipMusicAsync()
+    {
+        _mediaPlayerService.Stop();
+        CurrentTrack = null;
+        IsMusicPlaying = false;
+        await PlayNextInQueueAsync();
+    }
+
+    [RelayCommand]
+    private async Task TrackEndedAsync()
+    {
+        await SkipMusicAsync();
+    }
+
+    private async Task PlayNextInQueueAsync()
+    {
+        if (MusicQueue.Count > 0)
+        {
+            var nextTrack = MusicQueue[0];
+            MusicQueue.RemoveAt(0);
+
+            CurrentTrack = nextTrack;
+
+            if (CurrentTrack != null)
+            {
+                _mediaPlayerService.Play(CurrentTrack.StreamUrl);
+                _mediaPlayerService.SetVolume(Volume);
+                IsMusicPlaying = true;
+            }
+        }
     }
 }

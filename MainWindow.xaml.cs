@@ -23,6 +23,15 @@ public partial class MainWindow : Window
         _viewModel = new MainViewModel(timerService, mediaPlayerService, musicResolverService);
         DataContext = _viewModel;
         PlayerMediaElement.Volume = 0.5; // Default volume
+        PlayerMediaElement.MediaEnded += PlayerMediaElement_MediaEnded;
+    }
+
+    private async void PlayerMediaElement_MediaEnded(object sender, RoutedEventArgs e)
+    {
+        if (_viewModel.TrackEndedCommand.CanExecute(null))
+        {
+            await _viewModel.TrackEndedCommand.ExecuteAsync(null);
+        }
     }
 
     private void PlayMedia(string url)

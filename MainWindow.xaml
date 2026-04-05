@@ -5,33 +5,99 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StudyTimerApp"
         mc:Ignorable="d"
-        Title="Focus Reading Timer" Height="680" Width="800"
-        Background="#11111B" Foreground="#CDD6F4"
+        Title="Focus Reading Timer" Height="740" Width="1120"
+        Background="#0A0A0A" Foreground="#FFFFFF"
         WindowStartupLocation="CenterScreen">
-    
+
     <Window.Resources>
-        <Style x:Key="ModernButton" TargetType="Button">
-            <Setter Property="Background" Value="#1DB954"/> <!-- Spotify Green -->
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Padding" Value="15,8"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FontWeight" Value="Bold"/>
+
+        <!-- ========= Color & Brush Resources ========= -->
+        <SolidColorBrush x:Key="BgDark"       Color="#0A0A0A"/>
+        <SolidColorBrush x:Key="BgCard"       Color="#111111"/>
+        <SolidColorBrush x:Key="BgSurface"    Color="#1A1A1A"/>
+        <SolidColorBrush x:Key="BgHover"      Color="#222222"/>
+        <SolidColorBrush x:Key="AccentGreen"  Color="#1DB954"/>
+        <SolidColorBrush x:Key="AccentGreenHover" Color="#22D460"/>
+        <SolidColorBrush x:Key="TextPrimary"  Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="TextMuted"    Color="#A7A7A7"/>
+        <SolidColorBrush x:Key="TextSubtle"   Color="#535353"/>
+        <SolidColorBrush x:Key="BorderColor"  Color="#282828"/>
+        <LinearGradientBrush x:Key="GreenGlow" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#1DB954" Offset="0"/>
+            <GradientStop Color="#138A3A" Offset="1"/>
+        </LinearGradientBrush>
+
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
+        <!-- ========= Button Styles ========= -->
+
+        <!-- Primary Green Button -->
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background"       Value="{StaticResource AccentGreen}"/>
+            <Setter Property="Foreground"       Value="#000000"/>
+            <Setter Property="BorderThickness"  Value="0"/>
+            <Setter Property="FontWeight"       Value="Bold"/>
+            <Setter Property="FontSize"         Value="14"/>
+            <Setter Property="Cursor"           Value="Hand"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="RenderTransform">
+                <Setter.Value><ScaleTransform ScaleX="1" ScaleY="1"/></Setter.Value>
+            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="20">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="24" Effect="{x:Null}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#1ed760"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                             To="1.04" Duration="0:0:0.12"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                             To="1.04" Duration="0:0:0.12"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                             To="1" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                             To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource AccentGreenHover}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#1aa34a"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                             To="0.96" Duration="0:0:0.06"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                             To="0.96" Duration="0:0:0.06"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                             To="1" Duration="0:0:0.12"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                             To="1" Duration="0:0:0.12"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Background" Value="#2A2A35"/>
-                                <Setter Property="Foreground" Value="#A6ADC8"/>
+                                <Setter Property="Opacity" Value="0.4"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -39,62 +105,596 @@
             </Setter>
         </Style>
 
-        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <!-- Ghost / Secondary Button -->
+        <Style x:Key="GhostButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background"   Value="#282828"/>
+            <Setter Property="Foreground"   Value="#FFFFFF"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="24">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                             To="1.04" Duration="0:0:0.12"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                             To="1.04" Duration="0:0:0.12"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                             To="1" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                             To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                                <Setter TargetName="Bd" Property="Background" Value="#333333"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                             To="0.96" Duration="0:0:0.06"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                             To="0.96" Duration="0:0:0.06"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                             To="1" Duration="0:0:0.12"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                             To="1" Duration="0:0:0.12"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Icon Button (transparent, for playback controls) -->
+        <Style x:Key="IconButton" TargetType="Button">
+            <Setter Property="Background"       Value="Transparent"/>
+            <Setter Property="Foreground"       Value="{StaticResource TextMuted}"/>
+            <Setter Property="BorderThickness"  Value="0"/>
+            <Setter Property="FontSize"         Value="20"/>
+            <Setter Property="Cursor"           Value="Hand"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="RenderTransform">
+                <Setter.Value><ScaleTransform ScaleX="1" ScaleY="1"/></Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                             To="1.2" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                             To="1.2" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                             To="1" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                             To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                             To="0.9" Duration="0:0:0.05"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                             To="0.9" Duration="0:0:0.05"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                             To="1" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                             To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Big circular play button -->
+        <Style x:Key="PlayCircleButton" TargetType="Button">
+            <Setter Property="Background"       Value="#FFFFFF"/>
+            <Setter Property="Foreground"       Value="#000000"/>
+            <Setter Property="BorderThickness"  Value="0"/>
+            <Setter Property="Cursor"           Value="Hand"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="RenderTransform">
+                <Setter.Value><ScaleTransform ScaleX="1" ScaleY="1"/></Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="20" Width="40" Height="40">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#E0E0E0"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                             To="1.08" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                             To="1.08" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                             To="1" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                             To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#CCCCCC"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                             To="0.94" Duration="0:0:0.06"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                             To="0.94" Duration="0:0:0.06"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                             To="1" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                             To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Time Chip Button (10 / 25 / 50 Min) -->
+        <Style x:Key="ChipButton" TargetType="Button" BasedOn="{StaticResource GhostButton}">
+            <Setter Property="FontSize"  Value="13"/>
+            <Setter Property="Padding"   Value="18,8"/>
+        </Style>
+
+        <!-- Slider Track / Thumb Override -->
+        <Style x:Key="GreenSlider" TargetType="Slider">
+            <Setter Property="Height"           Value="4"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Slider">
+                        <Grid>
+                            <Track x:Name="PART_Track">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="Slider.DecreaseLarge">
+                                        <RepeatButton.Template>
+                                            <ControlTemplate TargetType="RepeatButton">
+                                                <Border Height="4" Background="#1DB954" CornerRadius="2 0 0 2"/>
+                                            </ControlTemplate>
+                                        </RepeatButton.Template>
+                                    </RepeatButton>
+                                </Track.DecreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb>
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Ellipse Width="12" Height="12" Fill="#FFFFFF" Margin="-4,0"/>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="Slider.IncreaseLarge">
+                                        <RepeatButton.Template>
+                                            <ControlTemplate TargetType="RepeatButton">
+                                                <Border Height="4" Background="#535353" CornerRadius="0 2 2 0"/>
+                                            </ControlTemplate>
+                                        </RepeatButton.Template>
+                                    </RepeatButton>
+                                </Track.IncreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Queue Item Remove Button -->
+        <Style x:Key="RemoveButton" TargetType="Button">
+            <Setter Property="Background"       Value="Transparent"/>
+            <Setter Property="Foreground"       Value="#535353"/>
+            <Setter Property="BorderThickness"  Value="0"/>
+            <Setter Property="Cursor"           Value="Hand"/>
+            <Setter Property="Opacity"          Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock Text="✕" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Foreground="{TemplateBinding Foreground}"/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
 
-    <Grid Margin="30">
+    <!-- ===================== ROOT GRID ===================== -->
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <!-- Content -->
+            <RowDefinition Height="1"/>
+            <!-- divider -->
+            <RowDefinition Height="88"/>
+            <!-- Bottom player bar -->
         </Grid.RowDefinitions>
 
-        <!-- Timer Display -->
-        <TextBlock Text="{Binding TimeDisplay}" FontSize="110" 
-                   HorizontalAlignment="Center" FontWeight="UltraBlack" 
-                   Margin="0,10,0,20" Foreground="#FFFFFF"/>
+        <!-- ============================================================ -->
+        <!--  TOP CONTENT  -->
+        <!-- ============================================================ -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1"/>
+                <!-- divider -->
+                <ColumnDefinition Width="370"/>
+            </Grid.ColumnDefinitions>
 
-        <!-- Time Selectors -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
-            <Button Content="10 Min" Command="{Binding SetTimeCommand}" CommandParameter="10" Style="{StaticResource ModernButton}" Margin="8"/>
-            <Button Content="25 Min" Command="{Binding SetTimeCommand}" CommandParameter="25" Style="{StaticResource ModernButton}" Margin="8"/>
-            <Button Content="50 Min" Command="{Binding SetTimeCommand}" CommandParameter="50" Style="{StaticResource ModernButton}" Margin="8"/>
-        </StackPanel>
+            <!-- ─── LEFT: FOCUS TIMER ─── -->
+            <Grid Grid.Column="0" Background="#111111">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-        <!-- Link Input -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15">
-            <TextBlock Text="Youtube Music URL:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="15" FontWeight="SemiBold" Foreground="#B3B3B3"/>
-            <TextBox Text="{Binding MediaUrl, UpdateSourceTrigger=PropertyChanged}" Width="380" Padding="12" FontSize="14" 
-                     Background="#242424" Foreground="#FFFFFF" BorderBrush="Transparent" BorderThickness="0" 
-                     IsEnabled="{Binding CanEditSettings}"/>
-        </StackPanel>
+                <!-- Top Bar: URL search + Add -->
+                <Border Background="#1A1A1A" Padding="20,14" Grid.Row="0">
+                    <Grid MaxWidth="520" HorizontalAlignment="Left">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Background="#282828" CornerRadius="24" Padding="14,0" Height="44">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="🔗" FontSize="14" Foreground="#A7A7A7" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <TextBox Grid.Column="1"
+                                         Text="{Binding NewMediaUrl, UpdateSourceTrigger=PropertyChanged}"
+                                         Background="Transparent" Foreground="#FFFFFF"
+                                         CaretBrush="#FFFFFF"
+                                         BorderThickness="0" FontSize="14"
+                                         VerticalAlignment="Center"
+                                         VerticalContentAlignment="Center">
+                                    <TextBox.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="0"/>
+                                        </Style>
+                                    </TextBox.Resources>
+                                </TextBox>
+                            </Grid>
+                        </Border>
+                        <Button Grid.Column="1"
+                                Content="Add to Queue"
+                                Command="{Binding AddToQueueCommand}"
+                                Style="{StaticResource PrimaryButton}"
+                                Padding="20,11"
+                                Margin="10,0,0,0"
+                                FontSize="13"/>
+                    </Grid>
+                </Border>
 
-        <!-- Controls -->
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20">
-            <Button Content="▶ START FOCUS" Command="{Binding StartCommand}" Style="{StaticResource ModernButton}" FontSize="16" Width="160" Margin="10"/>
-            <Button Content="⏸ STOP" Command="{Binding StopCommand}" Style="{StaticResource ModernButton}" FontSize="16" Width="100" Margin="10" Background="#313244"/>
-            <Button Content="🔄 RESET" Command="{Binding ResetCommand}" Style="{StaticResource ModernButton}" FontSize="16" Width="100" Margin="10" Background="#313244"/>
-        </StackPanel>
+                <!-- Center: Timer + Buttons -->
+                <Grid Grid.Row="1">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
 
-        <!-- Spotify-like Media Player -->
-        <Border Grid.Row="4" CornerRadius="12" Background="#181818" Margin="0,15" Padding="20">
-            <Grid>
-                <!-- Loading State -->
-                <TextBlock Text="Loading ad-free music stream..." FontSize="16" FontWeight="SemiBold" Foreground="#1DB954"
-                           HorizontalAlignment="Center" VerticalAlignment="Center"
-                           Visibility="{Binding IsLoadingMusic, Converter={StaticResource BoolToVis}}"/>
-                
-                <!-- Track Info -->
-                <Grid Visibility="{Binding CurrentTrack, ConverterParameter=Inverse, Converter={StaticResource BoolToVis}}">
-                    <!-- Default State when empty (Handled by bindings) -->
+                        <!-- Label -->
+                        <TextBlock Text="FOCUS TIMER"
+                                   Foreground="#535353"
+                                   FontSize="11"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,8"/>
+
+
+                        <!-- ── Timer circle glow container ── -->
+                        <Border HorizontalAlignment="Center" Margin="0,0,0,32">
+                            <Border.Effect>
+                                <DropShadowEffect Color="#1DB954" BlurRadius="60" Opacity="0.12" ShadowDepth="0"/>
+                            </Border.Effect>
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsRunning}" Value="True">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard RepeatBehavior="Forever" AutoReverse="True">
+                                                        <DoubleAnimation
+                                                            Storyboard.TargetProperty="(Effect).(DropShadowEffect.Opacity)"
+                                                            From="0.12" To="0.42" Duration="0:0:1.5"/>
+                                                        <DoubleAnimation
+                                                            Storyboard.TargetProperty="(Effect).(DropShadowEffect.BlurRadius)"
+                                                            From="60" To="100" Duration="0:0:1.5"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.EnterActions>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <TextBlock Text="{Binding TimeDisplay}"
+                                       FontSize="115"
+                                       FontWeight="Black"
+                                       Foreground="#FFFFFF"
+                                       FontFamily="Segoe UI"
+                                       HorizontalAlignment="Center"/>
+                        </Border>
+
+                        <!-- Time Chips -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,36">
+                            <Button Content="10 min" Command="{Binding SetTimeCommand}" CommandParameter="10"
+                                    Style="{StaticResource ChipButton}" Margin="6,0"/>
+                            <Button Content="25 min" Command="{Binding SetTimeCommand}" CommandParameter="25"
+                                    Style="{StaticResource ChipButton}" Margin="6,0"
+                                    Background="{StaticResource AccentGreen}" Foreground="#000000"/>
+                            <Button Content="50 min" Command="{Binding SetTimeCommand}" CommandParameter="50"
+                                    Style="{StaticResource ChipButton}" Margin="6,0"/>
+                        </StackPanel>
+
+                        <!-- Action Buttons -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="START FOCUS"
+                                    Command="{Binding StartCommand}"
+                                    Style="{StaticResource PrimaryButton}"
+                                    Padding="38,14" FontSize="15" Margin="6,0"/>
+                            <Button Content="STOP"
+                                    Command="{Binding StopCommand}"
+                                    Style="{StaticResource GhostButton}"
+                                    Padding="24,14" FontSize="15" Margin="6,0"/>
+                            <Button Content="RESET"
+                                    Command="{Binding ResetCommand}"
+                                    Style="{StaticResource GhostButton}"
+                                    Padding="24,14" FontSize="15" Margin="6,0"/>
+                        </StackPanel>
+
+                        <!-- Loading indicator -->
+                        <TextBlock Text="⏳  Resolving track..."
+                                   Foreground="{StaticResource AccentGreen}"
+                                   FontSize="13" FontWeight="SemiBold"
+                                   HorizontalAlignment="Center" Margin="0,28,0,0"
+                                   Visibility="{Binding IsLoadingMusic, Converter={StaticResource BoolToVis}}"/>
+                    </StackPanel>
                 </Grid>
+            </Grid>
 
+            <!-- Column divider -->
+            <Border Grid.Column="1" Background="#282828"/>
+
+            <!-- ─── RIGHT: QUEUE SIDEBAR ─── -->
+            <Border Grid.Column="2" Background="#111111" Padding="24,20">
                 <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Header -->
+                    <TextBlock Text="Queue" Foreground="#FFFFFF" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+
+                            <!-- NOW PLAYING header -->
+                            <TextBlock Text="Now playing" Foreground="#A7A7A7" FontWeight="SemiBold" FontSize="12" Margin="0,0,0,12"/>
+
+                            <!-- Playing item (visible when CurrentTrack != null) -->
+                            <Border Padding="10,8" CornerRadius="8" Margin="0,0,0,20">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentTrack}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border CornerRadius="4" ClipToBounds="True" Width="52" Height="52" Margin="0,0,14,0"
+                                            VerticalAlignment="Center">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="#000000" BlurRadius="10" Opacity="0.5" ShadowDepth="2"/>
+                                        </Border.Effect>
+                                        <Image Source="{Binding CurrentTrack.ThumbnailUrl}" Stretch="UniformToFill"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding CurrentTrack.Title}" Foreground="{StaticResource AccentGreen}"
+                                                   FontWeight="SemiBold" FontSize="14" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Text="{Binding CurrentTrack.Author}" Foreground="#A7A7A7"
+                                                   FontSize="12" Margin="0,3,0,0" TextTrimming="CharacterEllipsis"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <!-- Empty now-playing -->
+                            <TextBlock Text="Nothing is playing right now." Foreground="#535353" FontSize="13" Margin="0,0,0,20">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentTrack}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
+                            <!-- NEXT IN QUEUE header -->
+                            <TextBlock Text="Next in queue" Foreground="#A7A7A7" FontWeight="SemiBold" FontSize="12" Margin="0,0,0,12"/>
+
+                            <!-- Queue list -->
+                            <ItemsControl ItemsSource="{Binding MusicQueue}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border x:Name="QueueItem" Padding="10,8" CornerRadius="8" Margin="0,0,0,4"
+                                                Background="Transparent">
+                                            <Border.InputBindings>
+                                                <MouseBinding MouseAction="LeftDoubleClick"
+                                                              Command="{Binding DataContext.RemoveFromQueueCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                              CommandParameter="{Binding}"/>
+                                            </Border.InputBindings>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Border CornerRadius="4" ClipToBounds="True" Width="48" Height="48"
+                                                        Margin="0,0,12,0" VerticalAlignment="Center">
+                                                    <Image Source="{Binding ThumbnailUrl}" Stretch="UniformToFill"/>
+                                                </Border>
+                                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Title}" Foreground="#FFFFFF"
+                                                               FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                                                    <TextBlock Text="{Binding Author}" Foreground="#A7A7A7"
+                                                               FontSize="12" Margin="0,2,0,0" TextTrimming="CharacterEllipsis"/>
+                                                </StackPanel>
+                                                <!-- Remove button appears on hover via trigger -->
+                                                <Button Grid.Column="2"
+                                                        Command="{Binding DataContext.RemoveFromQueueCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                        CommandParameter="{Binding}"
+                                                        x:Name="RemoveBtn"
+                                                        Style="{StaticResource RemoveButton}"
+                                                        Width="28" Height="28"
+                                                        VerticalAlignment="Center"/>
+                                            </Grid>
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="#1A1A1A"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Border}}" Value="True">
+                                                <Setter TargetName="RemoveBtn" Property="Opacity" Value="1"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <!-- Empty queue message -->
+                            <TextBlock Text="Queue is empty." Foreground="#535353" FontSize="13" Margin="0,4,0,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding MusicQueue.Count}" Value="0">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Horizontal divider -->
+        <Border Grid.Row="1" Background="#282828"/>
+
+        <!-- ============================================================ -->
+        <!--  BOTTOM PLAYER BAR  -->
+        <!-- ============================================================ -->
+        <Border Grid.Row="2" Background="#0A0A0A">
+            <Grid Margin="20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="280"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="260"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- LEFT: Now Playing Info -->
+                <Grid Grid.Column="0" VerticalAlignment="Center">
                     <Grid.Style>
                         <Style TargetType="Grid">
-                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="Visibility" Value="Visible"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding CurrentTrack}" Value="{x:Null}">
                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -102,70 +702,89 @@
                             </Style.Triggers>
                         </Style>
                     </Grid.Style>
-                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    
-                    <!-- Thumbnail -->
-                    <Border CornerRadius="8" ClipToBounds="True" Width="80" Height="80" VerticalAlignment="Center" Margin="0,0,20,0">
+                    <Border CornerRadius="4" ClipToBounds="True" Width="56" Height="56" Margin="0,0,16,0" VerticalAlignment="Center">
+                        <Border.Effect>
+                            <DropShadowEffect Color="#000000" BlurRadius="12" Opacity="0.6" ShadowDepth="2"/>
+                        </Border.Effect>
                         <Image Source="{Binding CurrentTrack.ThumbnailUrl}" Stretch="UniformToFill"/>
                     </Border>
-                    
-                    <!-- Track Details -->
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="NOW PLAYING (AD-FREE)" Foreground="#1DB954" FontWeight="Bold" FontSize="11" Margin="0,0,0,5" />
-                        <TextBlock Text="{Binding CurrentTrack.Title}" Foreground="#FFFFFF" FontWeight="Bold" FontSize="18" TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="{Binding CurrentTrack.Author}" Foreground="#B3B3B3" FontSize="14" Margin="0,3,0,0" TextTrimming="CharacterEllipsis"/>
-                        
-                        <!-- Track Controls -->
-                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                            <!-- Play/Pause Button -->
-                            <Button Command="{Binding ResumeMusicCommand}" Style="{StaticResource ModernButton}" Padding="15,4" Margin="0,0,10,0" Width="60">
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource ModernButton}">
-                                        <Setter Property="Content" Value="▶"/>
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsMusicPlaying}" Value="False">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-                            
-                            <Button Command="{Binding PauseMusicCommand}" Style="{StaticResource ModernButton}" Padding="15,4" Margin="0,0,10,0" Width="60">
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource ModernButton}">
-                                        <Setter Property="Content" Value="⏸"/>
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsMusicPlaying}" Value="False">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-
-                            <!-- Stop Button -->
-                            <Button Content="⏹" Command="{Binding StopMusicCommand}" Style="{StaticResource ModernButton}" Background="#e81123" Padding="15,4" Margin="0,0,10,0" Width="60"/>
-                        </StackPanel>
-                    </StackPanel>
-                    
-                    <!-- Volume Control -->
-                    <StackPanel Grid.Column="2" VerticalAlignment="Center" Orientation="Horizontal" Margin="20,0,0,0">
-                        <TextBlock Text="🔉" Foreground="#B3B3B3" FontSize="20" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                        <Slider Minimum="0" Maximum="1" Value="{Binding Volume}" Width="100" VerticalAlignment="Center"/>
-                        <TextBlock Text="🔊" Foreground="#B3B3B3" FontSize="20" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                        <TextBlock Text="{Binding CurrentTrack.Title}" Foreground="#FFFFFF"
+                                   FontWeight="SemiBold" FontSize="14" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding CurrentTrack.Author}" Foreground="#A7A7A7"
+                                   FontSize="12" Margin="0,3,0,0" TextTrimming="CharacterEllipsis"/>
                     </StackPanel>
                 </Grid>
-                
-                <MediaElement x:Name="PlayerMediaElement" Visibility="Collapsed" LoadedBehavior="Manual" UnloadedBehavior="Stop"/>
+
+                <!-- CENTER: Playback Controls -->
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <!-- Stop -->
+                        <Button Content="⏹" Command="{Binding StopMusicCommand}"
+                                Style="{StaticResource IconButton}" Padding="8,4" FontSize="19" Margin="8,0"/>
+
+                        <!-- Play/Pause (single toggle button using TogglePlayPauseMusic) -->
+                        <Button Command="{Binding TogglePlayPauseMusicCommand}"
+                                Style="{StaticResource PlayCircleButton}" Margin="12,0">
+                            <Button.Content>
+                                <Grid Width="40" Height="40">
+                                    <!-- Show ▶ when paused -->
+                                    <TextBlock Text="▶" FontSize="16" FontWeight="Bold"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                                               Margin="2,0,0,0">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsMusicPlaying}" Value="True">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <!-- Show ⏸ when playing -->
+                                    <TextBlock Text="⏸" FontSize="16" FontWeight="Bold"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsMusicPlaying}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+
+                        <!-- Skip -->
+                        <Button Content="⏭" Command="{Binding SkipMusicCommand}"
+                                Style="{StaticResource IconButton}" Padding="8,4" FontSize="19" Margin="8,0"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- RIGHT: Volume -->
+                <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                    <TextBlock Text="🔉" Foreground="#A7A7A7" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <Slider Style="{StaticResource GreenSlider}"
+                            Minimum="0" Maximum="1" Value="{Binding Volume}"
+                            Width="110" Cursor="Hand"/>
+                    <TextBlock Text="🔊" Foreground="#A7A7A7" FontSize="16" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                </StackPanel>
             </Grid>
         </Border>
+
+        <!-- Hidden media element -->
+        <MediaElement x:Name="PlayerMediaElement" Grid.Row="0"
+                      Visibility="Collapsed" LoadedBehavior="Manual" UnloadedBehavior="Stop"/>
     </Grid>
 </Window>
